@@ -1,4 +1,6 @@
 # Unit Testing an ASP.NET Core 6 Web API
+- Unit testing your ASP.NET Core 6 Web API helps with improving its reliability.
+- This course will teach you the ins and outs of unit testing with xUnit in detail.
 
 - OVERVIEW:
   - ASP.NET Core 6.0. XUnit 2.4.1. Moq 4.17.2. .NET 6.0.
@@ -43,4 +45,30 @@
     - [Fact] signafies a unit test method.
 
 - BASIC UNIT TESTING SCENARIOS:
+  - Assert: A boolean expression that should evaluate 'true.' A test can contain one or more asserts.
+  - xUnit provides asserts for all common core testing scenarios.
+  - "A unit test should only contain one assert."
+    - NOTE: Multiple assertions in a test is acceptable provided they assert the same behavior.
+  - Strings. Case sensitive. Note the inline regular expression "sounds like."
+    ```csharp
+      Assert.Matches("Lu(c|s|z)ia Shel(t|d)on", employee.FullName);
+    ```
+  - Floating point: float. double. decimal. salary is of type decimal.
+  - Asserting on arrays and collections.
+  - Asynchronous assertions.
+  - Asserting on exceptions.
+    - ThrowsAny(Async)<T> takes derived versions into consideration. Throws(Async)<T> does not.
+  - Asserting on events.
+  - Assert on object types.
+  - Asserting on private methods.
+    - A private method is an implementation detail that doesn't exist in isolation.
+    - Test the behavior of the method that uses the private method.
+    - Making a private method public just to be able to test it breaks encapsulation.
+      - [InternalVisible] is a slightly less poor alternative.
+  - SUMMARY:
+    - Alerts allow evalution and verification of the test outcome.
+      - Fails when one or more asserts fail.
+      - Passes when all asserts pass.
+
+- SETTING UP TESTS & CONTROLLING TEST EXECUTAION:
   - 
