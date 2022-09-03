@@ -7,7 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TopLevelManagement", "TopLe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeManagement", "EmployeeManagement\EmployeeManagement.csproj", "{770530BB-1B03-4C7E-9F75-98BC89E2CC78}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeManagement.Test", "EmployeeManagement.Test\EmployeeManagement.Test.csproj", "{6A34567F-00CB-48C5-BA25-FE01840627BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeManagement.Test", "EmployeeManagement.Test\EmployeeManagement.Test.csproj", "{6A34567F-00CB-48C5-BA25-FE01840627BE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8C549926-90F9-43CB-BA64-7029742DA664}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

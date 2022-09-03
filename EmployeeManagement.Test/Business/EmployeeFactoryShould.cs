@@ -4,15 +4,20 @@ using Xunit;
 
 namespace EmployeeManagement.Test.Business
 {
-    public class EmployeeFactoryTests
+    public class EmployeeFactoryShould : IDisposable
     {
+        private EmployeeFactory _factory;
+
+        /// <summary>
+        /// NOTE: EmployeeFactory is "newed" up for each and every test.
+        /// </summary>
+        public EmployeeFactoryShould() => _factory = new EmployeeFactory { };
+        public void Dispose() { }
+
         [Fact]
         public void CreateEmployee_ConstructInternalEmployee_SalaryMustBe2500()
         {
-            var employeeFactory = new EmployeeFactory();
-
-            var employee = (InternalEmployee)employeeFactory
-                .CreateEmployee("6", "BLossom");
+            var employee = (InternalEmployee)_factory.CreateEmployee("6", "Blossom");
 
             Assert.Equal(2500, employee.Salary);
         }
@@ -20,10 +25,7 @@ namespace EmployeeManagement.Test.Business
         [Fact]
         public void CreateEmployee_InternalEmployeeCreated_AttendedCoursesMustMatchObligatoryCourses()
         {
-            var employeeFactory = new EmployeeFactory();
-
-            var employee = (InternalEmployee)employeeFactory
-                .CreateEmployee("6", "Blossom");
+            var employee = (InternalEmployee)_factory.CreateEmployee("6", "Blossom");
 
             Assert.True(employee.Salary >= 2500 && employee.Salary <= 3500,
                 "employee.Salary is not within an acceptable range.");
@@ -35,25 +37,22 @@ namespace EmployeeManagement.Test.Business
         [Fact]
         public void CreateEmployee_ConstructInternalEmployee_SalaryMustB2500_Percision()
         {
-            var employeeFactory = new EmployeeFactory { };
-
-            var employee = (InternalEmployee)employeeFactory
-                .CreateEmployee("6", "Blossom");
+            var employee = (InternalEmployee)_factory.CreateEmployee("6", "Blossom");
             employee.Salary = 2500.123m;
 
             Assert.Equal(2500, employee.Salary, 0);
         }
 
+        /// <summary>
+        /// NOTE: Can be tested via derived type with IsAssignableFrom<T>().
+        /// </summary>
         [Fact]
         public void CreateEmployee_IsExternalIsTrue_ReturnTypeMustBeExternalEmployee()
         {
-            var employeeFactory = new EmployeeFactory { };
-
-            var employee = (ExternalEmployee)employeeFactory
+            var employee = (ExternalEmployee)_factory
                 .CreateEmployee("6", "Blossom", "ROSEMOUNT SAW & TOOL", true);
 
             Assert.IsType<ExternalEmployee>(employee);
-            // NOTE: Can be via derived type.
             Assert.IsAssignableFrom<Employee>(employee);
         }
     }

@@ -71,4 +71,23 @@
       - Passes when all asserts pass.
 
 - SETTING UP TESTS & CONTROLLING TEST EXECUTAION:
-  - 
+  - Set-up & clean-up code. And you don't have to execute each and every test every single time.
+  - Setting up tests and sharing test content:
+    - Constructor & dispose.
+      - Set up test context in the constructor, potentially clean up in .Dispose() method.
+        - Context is recreated for each test. Test class instance is not shared.
+    - Class fixture.
+      - Create a single test context shared among all tests in the class.
+        - Context is cleaned up after all tests in the class have finished.
+        - Use when context creation and clean-up are expensive.
+    - NOTE: Do not allow a test to depend on changes made to the context by another test. Isolate your tests.
+    - Collection fixture.
+      - Create a single test context shared among tests in several test classes.
+      - Context is cleaned up after all tests across classes have finished.
+      - Use when context creation and clean-up are expensive.
+  - Integrating test context with ASP.NET Core's dependency injection system.
+    - In ASP.NET Core, dependencies are often resolved via the built-in IoC container.
+      - Can this be integrated with a unit test?
+        - Newing up dependencies is the preferred approach. Simple. Fast. Concise.
+      - You might want to integrate with the DI system.
+        - If the class has got a lot of dependencies. Or a large dependency tree.
