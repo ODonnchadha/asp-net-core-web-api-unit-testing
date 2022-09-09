@@ -2,7 +2,9 @@
 using EmployeeManagement.Business.Exceptions;
 using EmployeeManagement.DataAccess.Entities;
 using EmployeeManagement.Test.Fixtures;
+using EmployeeManagement.Test.TestData;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace EmployeeManagement.Test.Services
 {
@@ -12,7 +14,143 @@ namespace EmployeeManagement.Test.Services
     public class EmployeeServiceShould : IClassFixture<EmployeeServiceFixture>
     {
         private readonly EmployeeServiceFixture _fixture;
-        public EmployeeServiceShould(EmployeeServiceFixture fixture) => _fixture = fixture;
+        private readonly ITestOutputHelper _helper;
+        public EmployeeServiceShould(
+            EmployeeServiceFixture fixture, ITestOutputHelper helper)
+        {
+            _fixture = fixture;
+            _helper = helper;
+        }
+
+        [Theory()]
+        [ClassData(typeof(EmployeeServiceStronglyTypedTestDataFromFile))]
+        public async Task GiveRaise_RaiseGiven_EmployeeMinimumRaiseGivenMatchesValue_ViaDataFile(
+int raise, bool expectation)
+        {
+            // Arrange.
+            var employee = new InternalEmployee("Flann", "O'Brien", 5, 3000, false, 1);
+
+            // Act.
+            await _fixture.EmployeeService.GiveRaiseAsync(employee, raise);
+
+            // Assert.
+            Assert.Equal(expectation, employee.MinimumRaiseGiven);
+        }
+
+        [Theory()]
+        [MemberData(nameof(ExampleStronglyTypedTestDataForGiveRaise_WithProperty))]
+        public async Task GiveRaise_RaiseGiven_EmployeeMinimumRaiseGivenMatchesValue_ViaStronglyTypedProperty(
+    int raise, bool expectation)
+        {
+            // Arrange.
+            var employee = new InternalEmployee("Flann", "O'Brien", 5, 3000, false, 1);
+
+            // Act.
+            await _fixture.EmployeeService.GiveRaiseAsync(employee, raise);
+
+            // Assert.
+            Assert.Equal(expectation, employee.MinimumRaiseGiven);
+        }
+
+        [Theory()]
+        [ClassData(typeof(EmployeeServiceStronglyTypedTestData))]
+        public async Task GiveRaise_RaiseGiven_EmployeeMinimumRaiseGivenMatchesValue_ViaStronglyTypesTestData(
+            int raise, bool expectation)
+        {
+            // Arrange.
+            var employee = new InternalEmployee("Flann", "O'Brien", 5, 3000, false, 1);
+
+            // Act.
+            await _fixture.EmployeeService.GiveRaiseAsync(employee, raise);
+
+            // Assert.
+            Assert.Equal(expectation, employee.MinimumRaiseGiven);
+        }
+
+        [Theory()]
+        [ClassData(typeof(EmployeeServiceTestData))]
+        public async Task GiveRaise_RaiseGiven_EmployeeMinimumRaiseGivenMatchesValue_ViaTestData(
+            int raise, bool expectation)
+        {
+            // Arrange.
+            var employee = new InternalEmployee("Flann", "O'Brien", 5, 3000, false, 1);
+
+            // Act.
+            await _fixture.EmployeeService.GiveRaiseAsync(employee, raise);
+
+            // Assert.
+            Assert.Equal(expectation, employee.MinimumRaiseGiven);
+        }
+
+        /// <summary>
+        /// Member data: Return type must: IEnumerable<object[]> Must be a static property.
+        /// </summary>
+        public static IEnumerable<object[]> ExampleTestDataForGiveRaise_WithProperty
+        {
+            get
+            {
+                return new List<object[]>
+                {
+                    new object[] { 100, true },
+                    new object[] { 200, false }
+                };
+            }
+        }
+
+        public static TheoryData<int,bool> ExampleStronglyTypedTestDataForGiveRaise_WithProperty
+        {
+            get
+            {
+                return new TheoryData<int, bool>
+                {
+                    { 100, true },
+                    { 200, false }
+                };
+            }
+        }
+
+        private static IEnumerable<object[]> ExampleTestDataForGiveRaise_WithMethod()
+        {
+            return new List<object[]>
+                {
+                    new object[] { 100, true },
+                    new object[] { 200, false }
+                };
+        }
+
+        /// <summary>
+        /// Dynamically select how many tests to run via parameter.
+        /// </summary>
+        /// <returns></returns>
+        private static IEnumerable<object[]> ExampleTestDataForGiveRaise_WithMethod(
+            int instances)
+        {
+            var o = new List<object[]>
+                {
+                    new object[] { 100, true },
+                    new object[] { 200, false }
+                };
+
+            return o.Take(instances);
+        }
+
+        [Theory()]
+        [MemberData(
+            nameof(EmployeeServiceShould.ExampleTestDataForGiveRaise_WithMethod), 
+            2,
+            MemberType = typeof(EmployeeServiceShould))]
+        public async Task GiveRaise_RaiseGiven_EmployeeMinimumRaiseGivenMatchesValue(
+            int raise, bool expectation)
+        {
+            // Arrange.
+            var employee = new InternalEmployee("Flann", "O'Brien", 5, 3000, false, 1);
+
+            // Act.
+            await _fixture.EmployeeService.GiveRaiseAsync(employee, raise);
+
+            // Assert.
+            Assert.Equal(expectation, employee.MinimumRaiseGiven);
+        }
 
         [Fact()]
         public void CreateInternalEmployee_InternalEmployeeCreated_MustHaveAttendedFirstObligatoryCourse_WithPredicate()
@@ -109,6 +247,12 @@ namespace EmployeeManagement.Test.Services
 
             // Act.
             var employee = _fixture.EmployeeService.CreateInternalEmployee("Flann", "O'Brien");
+
+            _helper.WriteLine($"Employee: {employee.LastName}, {employee.FirstName}");
+            employee.AttendedCourses?.ForEach(c =>
+            {
+                _helper.WriteLine($"Course: {c.Id} {c.Title}");
+            });
 
             // Assert.
             Assert.Contains(course, employee.AttendedCourses);

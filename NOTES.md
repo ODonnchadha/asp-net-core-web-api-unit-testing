@@ -91,3 +91,31 @@
         - Newing up dependencies is the preferred approach. Simple. Fast. Concise.
       - You might want to integrate with the DI system.
         - If the class has got a lot of dependencies. Or a large dependency tree.
+  - Categorizing:
+    - Out of the box, tests are grouped by class. Categorize tests in order to divide/run a subset.
+  - SUMMARY:
+    - Approaches for sharing test context:
+      - Constructor & dispose.
+      - Class fixture.
+      - Collection fixture.
+    - Integrating test context with ASP.NET Core's dependency injection system.
+    - Use [Trait] to categorize tests. [Skip] to skip tests. ITestOutputHelper to log additional diagnostics info.
+
+- WORKING WITH DATA-DRIVEN TESTS:
+  - [Fact] versus [Theory]:
+    - A fact is a test that is always true. It tests invariant conditions.
+    - A theory is a test which is only true for a particular set of data. 
+    - And provide data to the theory:
+      - Inline data:
+      - Member data: Share data across tests.
+      - Class data:
+      - NOTE: Use [TheoryData] for type-safe data. Working for objects. No compile-time checks on place.
+  - Data-driven tests:
+    - Type-safe approach:
+    - Data from an external source: Other people can manage this data.
+  - SUMMARY:
+    - [Theory] enables data-driven tests. Inline data. Member data. Class data.
+    - Strongly-typed data with TheoryData. Getting data from an external source.
+
+- ISOLATING UNIT TESTS WITH ASP.NET CORE TECHNIQUES & MOCKING:
+  - 

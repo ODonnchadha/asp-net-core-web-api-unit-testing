@@ -11,6 +11,23 @@ namespace EmployeeManagement.Test.Services
         private readonly EmployeeServiceFixture _fixture;
         public EmployeeServiceDataDrivenShould(EmployeeServiceFixture fixture) => _fixture = fixture;
 
+        /// <summary>
+        /// This is good for "simple" use cases.
+        /// </summary>
+        /// <param name="id"></param>
+        [Theory()]
+        [InlineData("37e03ca7-c730-4351-834c-b66f280cdb01")]
+        [InlineData("1fd115cf-f44c-4982-86bc-a8fe2e4ff83e")]
+        public void CreateInternalEmployee_InternalEmployeeCreated_MustHaveAttendedFirstObligatoryCourse(
+            Guid id)
+        {
+            // Act.
+            var employee = _fixture.EmployeeService.CreateInternalEmployee("Flann", "O'Brien");
+
+            // Assert.
+            Assert.Contains(employee.AttendedCourses, c => c.Id == id);
+        }
+
         [Fact()]
         public async Task GiveRaise_RaiseBelowMinimumGiven_EmployeeInvalidRaiseExceptionMustBeThrown_Async()
         {

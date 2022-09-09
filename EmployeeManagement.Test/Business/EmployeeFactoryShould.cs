@@ -14,7 +14,7 @@ namespace EmployeeManagement.Test.Business
         public EmployeeFactoryShould() => _factory = new EmployeeFactory { };
         public void Dispose() { }
 
-        [Fact]
+        [Fact, Trait("Category", "Salary")]
         public void CreateEmployee_ConstructInternalEmployee_SalaryMustBe2500()
         {
             var employee = (InternalEmployee)_factory.CreateEmployee("6", "Blossom");
@@ -22,7 +22,7 @@ namespace EmployeeManagement.Test.Business
             Assert.Equal(2500, employee.Salary);
         }
 
-        [Fact]
+        [Fact, Trait("Category", "Salary")]
         public void CreateEmployee_InternalEmployeeCreated_AttendedCoursesMustMatchObligatoryCourses()
         {
             var employee = (InternalEmployee)_factory.CreateEmployee("6", "Blossom");
@@ -34,7 +34,7 @@ namespace EmployeeManagement.Test.Business
             Assert.InRange(employee.Salary, 2500, 3500);
         }
 
-        [Fact]
+        [Fact, Trait("Category", "Salary")]
         public void CreateEmployee_ConstructInternalEmployee_SalaryMustB2500_Percision()
         {
             var employee = (InternalEmployee)_factory.CreateEmployee("6", "Blossom");
@@ -46,7 +46,7 @@ namespace EmployeeManagement.Test.Business
         /// <summary>
         /// NOTE: Can be tested via derived type with IsAssignableFrom<T>().
         /// </summary>
-        [Fact]
+        [Fact(Skip = "Skip"), Trait("Category", "Employee")]
         public void CreateEmployee_IsExternalIsTrue_ReturnTypeMustBeExternalEmployee()
         {
             var employee = (ExternalEmployee)_factory
