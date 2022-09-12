@@ -118,4 +118,38 @@
     - Strongly-typed data with TheoryData. Getting data from an external source.
 
 - ISOLATING UNIT TESTS WITH ASP.NET CORE TECHNIQUES & MOCKING:
+  - Unit tests should be isolated from other components of the system. And other dependencies. e.g.: factories. repositories.
+  - By isolating a test you can ensure that when it passes/fails it is the cause of the SUT.
+  - Test double: A generic term for any case where you replace a production object for testing purpose.
+    - Fakes: A working implementation not suitable for production use. e.g.: SQLLite in-memory.
+    - Dummies: A test double that's never accessed or used. e.g.: "constructing."
+    - Stubs: A test double that provides fake data to the SUT.
+    - Spies: A test double capable of capturing indirect output and providing indirect input as needed.
+      - A subclass of the class being tested, addining additional behavior.
+    - Mocks: A test double that implements the expected behavior.
+  - Test isolation options:
+    - Manually creating test doubles.
+    - Using built-in framework or library functionality to create test doubles.
+    - Using a mocking framewrk to create test doubles.
+    - NOTE: Different types of test doubles and different approaches are often combined. 
+      - Focus on the fact that the test is isolated, no matter how.
+  - Test isolation with EF Core.
+    - In principle, EF Core is used for calling into databases.
+    - Avoid real db calls. 
+      - Use in-memory for simple scenarios. Not the best option.
+      - SQLLite in-memory mode  is the best compatibility with a real database.
+  - Test isolation with HttpClient.
+    - Tests must be isolated from network calls. A custom message handler can short-circut the actual call.
+    - e.g.: HttpClient -> HttpRequestMessage (Message Handler) -> API -> HttpResponseMessage (Message Handler) -> HttpClient.
+  - Test isolation with Moq: Defacto standard in .NET. (ver 4.17.2)
+    - Creating:
+    - Configurating:
+    - Mocking an interface:
+    - Mocking async code:
+  - Which approach?
+    - Consider: Reliabiility. Effort. Available knowledge.
+  - SUMMARY:
+    - Test doubles. Framework techniques. Mocking framework.
+
+- UNIT TESTING ASP.NET Core API Controllers:
   - 
