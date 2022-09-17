@@ -152,4 +152,43 @@
     - Test doubles. Framework techniques. Mocking framework.
 
 - UNIT TESTING ASP.NET Core API Controllers:
+  - Controllers. Test the behavior you yourself coded.
+  - Code coverage. 100% can be counterproductive. ROI on final 10% can be counterproductive.
+  - Controller types:
+    - Thick (fat) controllers: Actions with logic that implement expected behavior. Model state. COnditional code. Mapping code.
+    - Thin (skinny) controller: Delegate the actual implementation of the behavior to other components. e.g.: Command pattern. Mediator.
+      - One type, by definition, is not better than the other.
+  - Test isolation is important. Avoid model binding, filters, routing. DO test custom middleware.
+  - Test: Expected return type. Expected type of return data. Expected data of returned data. Other action logic. (Non framework-related.)
+    - Mocking controller dependencies.
+    - Working with ModelState.
+    - Dealing with HttpContext.
+    - Work with HtppClient calls.
+    - If we are not testing the mapping code itself, use a mocked mapper.
+    - Mapping code can be seen as part of the SUT, so you can use an actual mapper.
+  - Combining controller action asserts in one unit test & testing maping code.
+  - Controller: Removing the [ApiController()] attribute for ModelState/BadRequest:
+    ```csharp
+      if (!ModelState.IsValid)
+      {
+        return BadRequest(ModelState);
+      }
+    ```
+    - Newing up an errant DTO is useless. ModelBinder does not execute. ModelState is invalid during the binding process.
+    - We need to invalidate ModelState in order to test and validate n isolation:
+      ```csharp
+        controller.ModelState.AddModelError("FirstName", "Required");
+      ```
+  - HttpContext: An object which encapsulates all HTTP-specific information about an individual HTTP request. A container for a single request.
+    - Request.
+    - Response.
+    - Features. (Connection, Server Information, etc.)
+    - User.
+    - Testing with HttpContext:
+      - Use the built-in default implementation: DefaultHttpContext. (All properties that are not read-only can be changed.)
+      - Use Moq: Mock<HttpContext>
+  - SUMMARY:
+    - Testing API Controller. ActionResult<T>, DTO Models, ModelState, HttpCOntext.
+
+- UNIT TESTING ASP.NET CORE MIDDLEWARE, FILTERS, & SERVICE REGISTRATIONS:
   - 
