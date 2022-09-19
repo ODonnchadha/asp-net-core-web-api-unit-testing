@@ -191,4 +191,33 @@
     - Testing API Controller. ActionResult<T>, DTO Models, ModelState, HttpCOntext.
 
 - UNIT TESTING ASP.NET CORE MIDDLEWARE, FILTERS, & SERVICE REGISTRATIONS:
+  - Unit testing middleware. Custom only. Unit or even integration. 
+    - Especially if dependenceis are tough to mock and test isolation becaomes impossible.
+    - Mock the HttpContext. Or use DefaultHttpContext. Handle the RequestDelegate.
+    - We need to avoid this:
+    ```csharp
+      await _next(context);
+    ```
+  - Filters: Custom filters often handle cross-cutting concerns.
+    - e.g.: Error handling. Caching.
+    - Used to avoid code duplication as well.
+    - Filters run in the ASP.NET Core action invocation pipeline.
+    - Filters:
+      - Action filter. Unit test. 
+        - Runs immediately before/after an action method is called.
+        - Can modify the arguments passed into an action.
+        - Can modify the result returned from the action.
+      - Authorization filter.
+      - Resource filter.
+      - Exception filter.
+      - Result filter.
+  - Unit testing service registrations:
+    - Services are registered on ASP.NET Core's IoC container.
+      - These registrations can be unit tested.
+      - Approach: Create an IServiceCollection.Register. Build IServiceProvider. Verify service registration.
+  - SUMMARY:
+    - Challenges with middleware & filter testing are related to test isolation.
+    - Test service registrations by building an IServiceProvider and testing whether you can get a service instance.
+
+- INTEGRATING UNIT TESTS IN DEVELOPMENT & RELEASE FLOWS:
   - 
