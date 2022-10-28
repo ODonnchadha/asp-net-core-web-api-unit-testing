@@ -220,4 +220,18 @@
     - Test service registrations by building an IServiceProvider and testing whether you can get a service instance.
 
 - INTEGRATING UNIT TESTS IN DEVELOPMENT & RELEASE FLOWS:
-  - 
+  - Running tests with the CLI: PowerShell. Bash. etc
+    ```javascript
+      dotnet test
+    ```
+    - Builds the solution and runs whatever test projects it finds. MSTest. NUnit. XUnit. Success? 0 as an exit code. Else, 1.
+  - Test runners with test frameworks:
+    - XUnit versus the runner.
+    - Test runner: The program, or perhaps the 3rd party plugin to a program, that is responsible for looking for 1:M assemblies with tests in them and activating the test framework(s) that it finds in those assemblies.
+    - Test framework: The code that has detailed knowledge of how to discover & run int tests.
+    - Running tests in parallel: Allows a set of tests to finish faster, locally and on your build server.
+      - Test runner: Can support running different test assembies in parallel.
+      - Test framework: an support running tests within a single assembly in parallel.
+  - Testing in parallel:
+  - Testing against multiple target frameworks:
+  - Integrating testing in your CI/CD pipeline:
