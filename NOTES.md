@@ -151,7 +151,7 @@
   - SUMMARY:
     - Test doubles. Framework techniques. Mocking framework.
 
-- UNIT TESTING ASP.NET Core API Controllers:
+- UNIT TESTING ASP.NET CORE API Controllers:
   - Controllers. Test the behavior you yourself coded.
   - Code coverage. 100% can be counterproductive. ROI on final 10% can be counterproductive.
   - Controller types:
@@ -233,5 +233,21 @@
       - Test runner: Can support running different test assembies in parallel.
       - Test framework: an support running tests within a single assembly in parallel.
   - Testing in parallel:
+    - Tests within the same class do not run in parallel. Different test classes run in parallel.
+    - Concept used: Test collections. Each test within a class is considered a collection.
+    - Can use the [Collection("NAME")] attribute.
   - Testing against multiple target frameworks:
+    - e.g.: .NET 6.x. .NET 5.x. Testing a class library that is referenced. Not all may target the same framework.
+    - Useful when developing frameworks or libraries.
+    ```xml
+      <PropertyGroup>
+        <TargetFrameworks>net6.0;net5.0</TargetFrameworks>
+      </PropertyGroup>
+    ```
+    - Test explorer will dispay each target framework.
   - Integrating testing in your CI/CD pipeline:
+  - Summary:
+    - Test runner: Program responsible for identifying 1:More assemblies with tests in them.
+    - Test framework: Code that has detailed knowledge of how to discover & run unit tests.
+    - Via the CLI: dotnet test. (Also executed on the build server.)
+    - Parallel and run in different frameworks.
